@@ -39,7 +39,7 @@ class App extends Base
             $projectId = '';
         }
 
-        $this->data['isAngular2'] = $appModel->isAppAngular2($appName);
+        $this->data['isAngular2'] = $appModel->isAppAngular2();
         $this->data['isBootstrap4'] = $appModel->isBootstrap4;
         $this->data['appName'] = $appName;
         $this->data['appFolder'] = $appModel->appFolder;
@@ -109,6 +109,11 @@ class AppModel {
     /**
      * @var string
      */
+    public $appName;
+
+    /**
+     * @var string
+     */
     public $parentAppFolder;
 
     /**
@@ -160,6 +165,7 @@ class AppModel {
      */
     public function __construct($appName, $projectId, $website, $isPublicApp)
     {
+        $this->appName = $appName;
         $this->determineFolderPaths($appName, $projectId, $website, $isPublicApp);
     }
 
@@ -247,12 +253,12 @@ class AppModel {
         }
     }
 
-    public function isAppAngular2($appName) {
+    public function isAppAngular2() {
         $siteAppsInAngular2 = array(
             "rapid-words",
             "review-suggest"
         );
-        return in_array($appName, $siteAppsInAngular2);
+        return in_array($this->appName, $siteAppsInAngular2);
     }
 
     private function isAppBootstrap4($appName, $website) {
@@ -264,7 +270,8 @@ class AppModel {
 
         $siteAppsInBootstrap4 = array(
             "scriptureforge" => array("appName"),
-            "languageforge" => array("appName"),
+            "languageforge" => array("login", "rapid-words"),
+            "m.languageforge" => array("review-suggest"),
             "waaqwiinaagiwritings" => array(),
             "jamaicanpsalms.scriptureforge" => array(),
             "demo.scriptureforge" => array(),
