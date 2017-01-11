@@ -19,16 +19,21 @@ let lfApiServiceFactory = (http: Http) => {
   }]
 })
 export class UserComponent implements OnInit {
+
+    username: string;
+
     ngOnInit(): void {
-        console.log('lf api inited');
-        this.performAuthentication();
+        this.updateProjectList();
     }
 
-    constructor(private lfApi: LfApiService) {
-        console.log('constructed UserComponent');
-    }
+    constructor(private lfApi: LfApiService) { }
 
-    performAuthentication() {
-        this.lfApi.performAuthentication();
+    updateProjectList(){
+        this.lfApi.getUserProfile().subscribe(res => {
+            if(res.success) {
+                this.username = res.data.name;
+            }
+            else console.error(res);
+        })
     }
 }
