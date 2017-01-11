@@ -70,14 +70,12 @@ class App extends Base
         // Other session data
         $this->data['jsonSession'] = json_encode(SessionCommands::getSessionData($this->_projectId, $this->_userId, $this->website, $appName), JSON_UNESCAPED_SLASHES);
 
-        $this->addJavascriptFiles($appModel->bellowsFolder . '/_js_module_definitions');
-        $this->addJavascriptFiles($appModel->bellowsFolder . '/js', array('vendor', 'assets'));
-        $this->addJavascriptFiles($appModel->bellowsFolder . '/directive');
-        $this->addJavascriptFiles($appModel->siteFolder . '/js', array('vendor', 'assets'));
 
-        if ($this->data['isAngular2']) {
-            $this->addJavascriptFiles($appModel->appFolder . '/dist');
-        } else {
+        if (!$this->data['isAngular2']) {
+            $this->addJavascriptFiles($appModel->bellowsFolder . '/_js_module_definitions');
+            $this->addJavascriptFiles($appModel->bellowsFolder . '/js', array('vendor', 'assets'));
+            $this->addJavascriptFiles($appModel->bellowsFolder . '/directive');
+            $this->addJavascriptFiles($appModel->siteFolder . '/js', array('vendor', 'assets'));
             $this->addJavascriptFiles($appModel->appFolder, array('js/vendor', 'js/assets'));
         }
 
@@ -270,7 +268,7 @@ class AppModel {
 
         $siteAppsInBootstrap4 = array(
             "scriptureforge" => array("appName"),
-            "languageforge" => array("login", "rapid-words"),
+            "languageforge" => array("login", "rapid-words", "userprofile"),
             "m.languageforge" => array("review-suggest"),
             "waaqwiinaagiwritings" => array(),
             "jamaicanpsalms.scriptureforge" => array(),
