@@ -1,22 +1,29 @@
-{% extends app.website.base~'Bootstrap4.html.twig' %}
+{% extends isBootstrap4 ? app.website.base~'Bootstrap4.html.twig': app.website.base~'.html.twig' %}
 
 {% block content %}
-    {#<div id="app-container-for-bootstrap">#}
-        {#{% include bootstrapFolder~'/'~appName~'.html' %}#}
-    {#</div>#}
+    <div id="app-container-for-bootstrap">
+        {% include bootstrapFolder~'/'~appName~'.html' %}
+    </div>
 
     <script type="text/javascript">
         window.session = {{ jsonSession|raw }};
-        var bootstrapVersion = "bootstrap4";
+        {% if isBootstrap4 %}
+            var bootstrapVersion = "bootstrap4";
+        {% else %}
+            var bootstrapVersion = "bootstrap2";
+        {% endif %}
     </script>
 
     {% if useMinifiedJs %}
+
         {% for filename in vendorFilesMinJs %}
             <script src="/{{ filename }}"></script>
         {% endfor %}
 
         <script src="/js/lib/{{ app.website.base }}.min.js"></script>
+
     {% else %}
+
         {% for filename in vendorFilesJs %}
             <script src="/{{ filename }}"></script>
         {% endfor %}
@@ -26,42 +33,12 @@
         {% endfor %}
     {% endif %}
 
-    {% for filename in jsNotMinifiedFiles %}
-        <script src="/{{ filename }}"></script>
-    {% endfor %}
+    {% if not isAngular2 %}
 
+        {% for filename in jsNotMinifiedFiles %}
+            <script src="/{{ filename }}"></script>
+        {% endfor %}
 
-    <sd-app>Loading...</sd-app>
-
-    <script>
-        // Fixes undefined module function in SystemJS bundle
-        function module() {}
-    </script>
-    http://languageforge.local/angular-app/languageforge/rapid-words/dist/dev/app/main.js
-    <!-- shims:js -->
-    <script src="/angular-app/languageforge/rapid-words/node_modules/core-js/client/shim.min.js"></script>
-    <script src="/angular-app/languageforge/rapid-words/node_modules/intl/dist/Intl.min.js"></script>
-    <script src="/angular-app/languageforge/rapid-words/node_modules/systemjs/dist/system.src.js"></script>
-    <!-- endinject -->
-
-
-    <script src="/angular-app/languageforge/rapid-words/dist/app/system-config.js"></script>
-
-
-    <!-- libs:js -->
-    <script src="/angular-app/languageforge/rapid-words/node_modules/zone.js/dist/zone.js"></script>
-    <script src="/angular-app/languageforge/rapid-words/node_modules/.tmp/Rx.min.js"></script>
-    <!-- endinject -->
-
-    <!-- inject:js -->
-    <!-- endinject -->
-
-
-    <script>
-        System.import('{{ '/'~bootstrapFolder~'/dist/dev/app/main.js' }}')
-            .catch(function (e) {
-                console.error(e.stack || e,
-                    'Not expecting this error? Report it at https://github.com/mgechev/angular-seed/issues');
-            });
-    </script>
+        <script>angular.bootstrap(document.getElementById('app-container-for-bootstrap'), ['{{ appName }}']);</script>
+    {% endif %}
 {% endblock %}

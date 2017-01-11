@@ -10,14 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 
 class App extends Base
 {
-    private $appModel;
-
     public function view(Request $request, Application $app, $appName, $projectId = '') {
         $this->setupBaseVariables($app);
         $retVal = $this->setupNgView($app, $appName, $projectId);
-
-        $viewName = $this->appModel->isAppAngular2() ? 'angular2-app' : 'angular-app';
-        return $this->renderPage($app, $viewName);
+        return $this->renderPage($app, 'angular-app');
     }
 
     public function setupNgView(Application $app, $appName, $projectId = '')
@@ -36,8 +32,7 @@ class App extends Base
 
         $isPublicApp = (preg_match('@^/(public|auth)/@', $app['request']->getRequestUri()) == 1);
 
-        // TODO: Not sure this is the proper way to set the instance variable.
-        $this->appModel = $appModel = new AppModel($appName, $projectId, $this->website, $isPublicApp);
+        $appModel = new AppModel($appName, $projectId, $this->website, $isPublicApp);
 
         if ($appModel->isChildApp) {
             $appName = "$appName-$projectId";
