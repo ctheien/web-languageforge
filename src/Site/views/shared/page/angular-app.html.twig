@@ -33,9 +33,12 @@
         {% endfor %}
     {% endif %}
 
-    {% for filename in jsNotMinifiedFiles %}
-        <script src="/{{ filename }}"></script>
-    {% endfor %}
+    {% if not isAngular2 %}
 
-    <script>angular.bootstrap(document.getElementById('app-container-for-bootstrap'), ['{{ appName }}']);</script>
+        {% for filename in jsNotMinifiedFiles %}
+            <script src="/{{ filename }}"></script>
+        {% endfor %}
+
+        <script>angular.bootstrap(document.getElementById('app-container-for-bootstrap'), ['{{ appName }}']);</script>
+    {% endif %}
 {% endblock %}
