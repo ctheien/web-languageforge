@@ -1,6 +1,9 @@
 import {Component} from '@angular/core';
 import {FormControl} from '@angular/forms';
 
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+
 const sem_doms = require('../shared/sem-dom-data.js');
 
 @Component({
@@ -14,8 +17,10 @@ export class TypeAheadComponent {
 
     constructor() {
         this.search_text.valueChanges
-        //           .debounceTime(300)
-        //           .distinctUntilChanged()
-            .map((result: string) => this.search_results.push(result));
+            .debounceTime(500)
+            .distinctUntilChanged()
+            .subscribe(text => {
+
+            });
     }
 }
