@@ -1,0 +1,8 @@
+ZIPPY
+<form>
+    <input type="text" [formControl]="search_text">
+    <ul>
+        <li *ngFor="let result of search_results">{{ result }}</li>
+    </ul>
+</form>
+SKIP

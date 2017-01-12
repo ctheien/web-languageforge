@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
   constructor(public semanticDomainListService: SemanticDomainListService) { }
 
   ngOnInit() {
-    this.getSemanticDomains();
+    // this.getSemanticDomains();
     this.getWords();
     this.getNumberOfEntries();
   }
