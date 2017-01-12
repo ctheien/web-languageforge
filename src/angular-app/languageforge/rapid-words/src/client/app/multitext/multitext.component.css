@@ -15,3 +15,11 @@ ul {
 .languageBox {
     border:1px solid mediumblue;
 }
+
+.input-group-addon{
+  width:60px;
+}
+
+.multitext-label{
+  margin:10px;
+}
