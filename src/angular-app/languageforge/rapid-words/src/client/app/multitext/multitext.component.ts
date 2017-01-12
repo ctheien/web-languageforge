@@ -9,19 +9,19 @@ import { Component, OnInit } from '@angular/core';
 export class MultitextComponent implements OnInit {
 
   label: string = "";
-  language: string = "";
+  languages: string[] = [];
   content: string = "";
 
   constructor() { }
 
   ngOnInit() {
-    this.getLanguage();
+    this.getLanguages();
     this.getLabel();
     this.getContent();
   }
 
-  getLanguage() {
-    this.language = "en";
+  getLanguages() {
+    this.languages = ["en","ga","ja"];
   }
   getLabel() {
     this.label = "Word";
