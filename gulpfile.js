@@ -46,7 +46,22 @@
 //   'build-php'
 //   'markdown'
 //   'default'
-//   'sass',
+//   'sass:base',
+//   'sass:activity',
+//   'sass:changepassword',
+//   'sass:forgot_password',
+//   'sass:home',
+//   'sass:lexicon',
+//   'sass:login',
+//   'sass:registration',
+//   'sass:new-project',
+//   'sass:projects',
+//   'sass:reset_password',
+//   'sass:signup',
+//   'sass:siteadmin',
+//   'sass:usermanagement',
+//   'sass:terms_and_conditions',
+//   'sass:userprofile',
 //   'sass:watch'
 
 // -------------------------------------
@@ -907,7 +922,8 @@ gulp.task('sass:home', function () {
 });
 
 gulp.task('sass:lexicon', function () {
-  return gulp.src('src/Site/views/languageforge/theme/default/cssBootstrap4/sass/lexicon/*.scss')
+  // TODO: Change back to *.scss once everyone has stopped working on their individual parts
+  return gulp.src('src/Site/views/languageforge/theme/default/cssBootstrap4/sass/lexicon/languageforge_lexicon.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('src/angular-app/languageforge/lexicon/bootstrap4/'));
 });
@@ -943,7 +959,7 @@ gulp.task('sass:reset_password', function () {
 });
 
 gulp.task('sass:signup', function () {
-  return gulp.src('src/Site/views/languageforge/theme/default/cssBootstrap4/sass/rsignup/*.scss')
+  return gulp.src('src/Site/views/languageforge/theme/default/cssBootstrap4/sass/signup/*.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('src/angular-app/bellows/apps/public/signup/bootstrap4/'));
 });
