@@ -30,7 +30,7 @@ class App extends Base
             $projectId = '';
         }
 
-        $isPublicApp = (preg_match('@^/(public|auth)/@', $app['request']->getRequestUri()) == 1);
+        $isPublicApp = (preg_match('@^/(public|auth|app\/review\-suggest)/@', $app['request']->getRequestUri()) == 1);
 
         $appModel = new AppModel($appName, $projectId, $this->website, $isPublicApp);
 
@@ -39,7 +39,7 @@ class App extends Base
             $projectId = '';
         }
 
-        $this->data['isAngular2'] = $appModel->isAppAngular2($appName);
+        $this->data['isAngular2'] = $appModel->isAppAngular2();
         $this->data['isBootstrap4'] = $appModel->isBootstrap4;
         $this->data['appName'] = $appName;
         $this->data['appFolder'] = $appModel->appFolder;
@@ -70,14 +70,12 @@ class App extends Base
         // Other session data
         $this->data['jsonSession'] = json_encode(SessionCommands::getSessionData($this->_projectId, $this->_userId, $this->website, $appName), JSON_UNESCAPED_SLASHES);
 
-        $this->addJavascriptFiles($appModel->bellowsFolder . '/_js_module_definitions');
-        $this->addJavascriptFiles($appModel->bellowsFolder . '/js', array('vendor', 'assets'));
-        $this->addJavascriptFiles($appModel->bellowsFolder . '/directive');
-        $this->addJavascriptFiles($appModel->siteFolder . '/js', array('vendor', 'assets'));
 
-        if ($this->data['isAngular2']) {
-            $this->addJavascriptFiles($appModel->appFolder . '/dist');
-        } else {
+        if (!$this->data['isAngular2']) {
+            $this->addJavascriptFiles($appModel->bellowsFolder . '/_js_module_definitions');
+            $this->addJavascriptFiles($appModel->bellowsFolder . '/js', array('vendor', 'assets'));
+            $this->addJavascriptFiles($appModel->bellowsFolder . '/directive');
+            $this->addJavascriptFiles($appModel->siteFolder . '/js', array('vendor', 'assets'));
             $this->addJavascriptFiles($appModel->appFolder, array('js/vendor', 'js/assets'));
         }
 
@@ -105,6 +103,11 @@ class App extends Base
 class AppNotFoundException extends \Exception { }
 
 class AppModel {
+
+    /**
+     * @var string
+     */
+    public $appName;
 
     /**
      * @var string
@@ -160,6 +163,7 @@ class AppModel {
      */
     public function __construct($appName, $projectId, $website, $isPublicApp)
     {
+        $this->appName = $appName;
         $this->determineFolderPaths($appName, $projectId, $website, $isPublicApp);
     }
 
@@ -191,6 +195,8 @@ class AppModel {
             } elseif ($this->appExists($bellowsPublicAppFolder, $appName)) {
                 $appFolder = "$bellowsPublicAppFolder/$appName";
                 $isBellows = true;
+            } elseif ($this->appExists($siteFolder, $appName)) {
+                $appFolder = "$siteFolder/$appName";
             } else {
                 throw new AppNotFoundException();
             }
@@ -247,12 +253,12 @@ class AppModel {
         }
     }
 
-    public function isAppAngular2($appName) {
+    public function isAppAngular2() {
         $siteAppsInAngular2 = array(
             "rapid-words",
             "review-suggest"
         );
-        return in_array($appName, $siteAppsInAngular2);
+        return in_array($this->appName, $siteAppsInAngular2);
     }
 
     private function isAppBootstrap4($appName, $website) {
@@ -264,7 +270,8 @@ class AppModel {
 
         $siteAppsInBootstrap4 = array(
             "scriptureforge" => array("appName"),
-            "languageforge" => array("appName"),
+            "languageforge" => array("login", "rapid-words", "userprofile", "changepassword", "forgot_password", "activity", "projects"),
+            "m.languageforge" => array("review-suggest"),
             "waaqwiinaagiwritings" => array(),
             "jamaicanpsalms.scriptureforge" => array(),
             "demo.scriptureforge" => array(),
