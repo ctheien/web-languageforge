@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   moduleId: module.id,
@@ -29,7 +30,7 @@ export class MultitextComponent implements OnInit {
   }
   getContent() {
     //placeholder to be switched for real data
-    this.content = "bacon";
+    this.content;
   }
   
 }

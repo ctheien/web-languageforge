@@ -2,5 +2,5 @@
     <h5>{{label}}</h5>
     <span class="input-group-addon" id="basic-addon1">{{language}}</span>
     <!--TODO: if editing, add placeholder to input placeholder={{content}}-->
-    <input type="text" class="form-control" aria-describedby="basic-addon1">
+    <input type="text" class="form-control" [(ngModel)]="content" aria-describedby="basic-addon1">
   </div>
