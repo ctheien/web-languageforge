@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   moduleId: module.id,
@@ -8,11 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MultitextComponent implements OnInit {
 
-  label: string = "";
-  languages: string[] = [];
-  content: string = "";
+  // @Input('label') public label: string = "";
+  @Input() public languages: string[] = [];
+  @Input() public content: string = "";
+  @Input() id: string;
+  @Input('userName') label: string;
 
-  constructor() { }
+  constructor() {
+
+   }
 
   ngOnInit() {
     this.getLanguages();
@@ -24,7 +28,8 @@ export class MultitextComponent implements OnInit {
     this.languages = ["en","ga","ja"];
   }
   getLabel() {
-    this.label = "Word";
+    // this.label = "Word";
+    console.log(this.label);
   }
   getContent() {
     this.content = "bacon";
